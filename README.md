@@ -11,6 +11,7 @@ components: `<SstateProvider />` and `<SstateConsumer />`.
 | 0.2.0   | Improved setSstate and getSstate |
 | 0.2.1   | Fixed the publishing of the component |
 | 0.2.2   | Fixed an issue with providing the right path for getSstate |
+| 0.2.3   | Fixed an issue with providing the right path for setSstate |
 
 ## Example
 

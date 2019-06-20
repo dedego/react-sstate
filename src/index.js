@@ -13,7 +13,7 @@ const SstateConsumer = ({ children, path }) => {
             return React.Children.map(children, child => {
                 const childProps = {
                     getSstate: (customPath) => getState.call(context, customPath ? customPath : path),
-                    setSstate: (customPath, newval) => setState.call(context, customPath ? customPath : path, newval ? newval : customPath),
+                    setSstate: (customPath, newval) => setState.call(context, customPath && newval ? customPath : path, newval ? newval : customPath),
                     sstate: state ? state : { next: getState(path), previous: undefined },
                 };
                 return React.cloneElement(child, childProps);
