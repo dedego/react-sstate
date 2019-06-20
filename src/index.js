@@ -12,7 +12,7 @@ const SstateConsumer = ({ children, path }) => {
             subscribe(subscriptionId, path, (next, previous) => setStateProp({ next, previous }));
             return React.Children.map(children, child => {
                 const childProps = {
-                    getSstate: (path) => path ? getState.call(context, path) : getState.call(context),
+                    getSstate: (customPath) => getState.call(context, customPath ? customPath : path),
                     setSstate: (customPath, newval) => setState.call(context, customPath ? customPath : path, newval ? newval : customPath),
                     sstate: state ? state : { next: getState(path), previous: undefined },
                 };

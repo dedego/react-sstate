@@ -44,9 +44,11 @@ var SstateConsumer = function SstateConsumer(_ref) {
     });
     return _react["default"].Children.map(children, function (child) {
       var childProps = {
-        getSstate: getState,
-        setSstate: function setSstate(newval) {
-          return setState.call(context, path, newval);
+        getSstate: function getSstate(customPath) {
+          return getState.call(context, customPath ? customPath : path);
+        },
+        setSstate: function setSstate(customPath, newval) {
+          return setState.call(context, customPath ? customPath : path, newval ? newval : customPath);
         },
         sstate: state ? state : {
           next: getState(path),
