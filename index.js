@@ -48,7 +48,7 @@ var SstateConsumer = function SstateConsumer(_ref) {
           return getState.call(context, customPath ? customPath : path);
         },
         setSstate: function setSstate(customPath, newval) {
-          return setState.call(context, customPath ? customPath : path, newval ? newval : customPath);
+          return setState.call(context, customPath && newval ? customPath : path, newval ? newval : customPath);
         },
         sstate: state ? state : {
           next: getState(path),
