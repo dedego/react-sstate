@@ -1,9 +1,10 @@
 {
   "name": "react-sstate",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "React wrapper for using Sstate with React",
   "main": "index.js",
   "scripts": {
+    "prepublish": "npm run build",
     "build": "./node_modules/.bin/babel src --out-file index.js"
   },
   "repository": {
