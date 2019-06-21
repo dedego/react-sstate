@@ -16,7 +16,7 @@ components: `<SstateProvider />` and `<SstateConsumer />`.
 ## Example
 
 **App.js**
-```
+```javascript
 import React, { Component } from 'react';
 import { SstateProvider } from 'react-sstate';
 import { Sstate } from 'sstate';
@@ -44,7 +44,7 @@ class App extends Component {
 ```
 
 **FoodCart.js**
-```
+```javascript
 import React, { Component } from 'react';
 import { SstateConsumer } from 'react-sstate';
 
@@ -93,7 +93,7 @@ This is the initial/current state of the property that was provided by passing t
 
 This is a method to get the latest state of the watched property, or other properties on the Sstate store.
 
-```
+```javascript
 // Retrieves the watched property provided by the passed path on the SstateConsumer
 getSstate() 
 
@@ -105,7 +105,7 @@ getSstate( path )
 
 This is a method for modifying the watched property, or other properties on the Sstate store.
 
-```
+```javascript
 // Updates the watched value
 setSstate( newValue ) 
 
