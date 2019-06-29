@@ -31,12 +31,17 @@ var SstateConsumer = function SstateConsumer(_ref) {
       state = _useState2[0],
       setStateProp = _useState2[1];
 
+  var unsubscribe;
+  (0, _react.useEffect)(function () {
+    return function () {
+      if (typeof unsubscribe === 'function') unsubscribe();
+    };
+  }, []);
   return _react["default"].createElement(Consumer, null, function (context) {
     var getState = context.getState,
         setState = context.setState,
         subscribe = context.subscribe;
-    var subscriptionId = Math.random().toString(36).substr(2, 9);
-    subscribe(subscriptionId, path, function (next, previous) {
+    unsubscribe = subscribe(path, function (next, previous) {
       return setStateProp({
         next: next,
         previous: previous

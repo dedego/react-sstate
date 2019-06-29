@@ -1,6 +1,6 @@
 {
   "name": "react-sstate",
-  "version": "0.2.3",
+  "version": "1.0.0",
   "description": "React wrapper for using Sstate with React",
   "main": "index.js",
   "scripts": {

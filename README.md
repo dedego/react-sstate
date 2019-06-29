@@ -12,6 +12,7 @@ components: `<SstateProvider />` and `<SstateConsumer />`.
 | 0.2.1   | Fixed the publishing of the component |
 | 0.2.2   | Fixed an issue with providing the right path for getSstate |
 | 0.2.3   | Fixed an issue with providing the right path for setSstate |
+| 1.0.0   | Modified the SstateConsumer to unsubscribe on unmounting and removed the subscriptionId (based on the 1.0.0 version of Sstate) |
 
 ## Example
 
