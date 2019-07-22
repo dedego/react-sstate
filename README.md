@@ -14,6 +14,7 @@ components: `<SstateProvider />` and `<SstateConsumer />`.
 | 0.2.3   | Fixed an issue with providing the right path for setSstate |
 | 1.0.0   | Modified the SstateConsumer to unsubscribe on unmounting and removed the subscriptionId (based on the 1.0.0 version of Sstate) |
 | 1.0.1   | Fixed typo in the readme |
+| 1.0.2   | Updated lodash version due to vulnerability. Moved to Github.  |
 
 ## Example
 
