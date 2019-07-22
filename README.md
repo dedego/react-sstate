@@ -14,7 +14,8 @@ components: `<SstateProvider />` and `<SstateConsumer />`.
 | 0.2.3   | Fixed an issue with providing the right path for setSstate |
 | 1.0.0   | Modified the SstateConsumer to unsubscribe on unmounting and removed the subscriptionId (based on the 1.0.0 version of Sstate) |
 | 1.0.1   | Fixed typo in the readme |
-| 1.0.2   | Updated lodash version due to vulnerability. Moved to Github.  |
+| 1.0.2   | Updated lodash version due to vulnerability. Moved to Github |
+| 1.1.0   | Added execSstate so using actions becomes simple |
 
 ## Example
 
@@ -34,6 +35,21 @@ const FoodStore = new Sstate({
     fruit: { 
         apples: 0.5, 
         bananas: 1 
+    },
+    startSync: null,
+    completedSync: null
+}, {
+    incrementApples: (setSstate, sstate, args) => {
+        setSstate('fruit.apples', sstate.fruit.apples + 1);
+    },
+    doubleApples: (setSstate, sstate, args) => {
+        setSstate('fruit.apples', sstate.fruit.apples * 2);
+    },
+    persist: (setSstate, sstate, args) => {
+        setSstate('startSync', args);
+        axios.post('/api/fruitStore', state).then(() => {
+            setSstate('completedSync', Date.now());
+        });
     }
 });
 
@@ -52,15 +68,13 @@ import React, { Component } from 'react';
 import { SstateConsumer } from 'react-sstate';
 
 class FoodCart extends Component {
-    addApple() {
-        const { getSstate, setSstate } = this.props;
-
-        // By providing only a single argument, the value is set onto the provided 
-        // path by the wrapped SstateConsumer
-        setSstate( getSstate() + 1 ); 
-    }
     render() {
-        const { sstate, setSstate, getSstate } = this.props;
+        const { 
+            sstate, // Last state
+            setSstate, // Method to set/update the state
+            getSstate,  // Method to retrieve the current/part of the state
+            execSstate // Method to execute (prefdined) actions on the store
+        } = this.props;
         
         // You can access other state properties by specifying the path.
         const baguetteCount = getSstate('bread.baguette');
@@ -69,12 +83,17 @@ class FoodCart extends Component {
         // is not re-rendered as these properties are not watched.
         setSstate('bread.baguette', 5);
 
+        // If setSstate is called without a reference, it will set the state
+        // for the watched value. In this example 'fruit.bananas'
+        setSstate(10)
+
         return (
             <>
                 <p>Apple count: {sstate.next} (was {sstate.previous} before)</p>
-                <button onClick={this.addApple.bind(this)}>Add apple</button>
-
                 <p>Baguette count: {baguetteCount}</p>
+                <button onClick={execSstate.bind(this, 'incrementApples')}>Add apple</button>
+                <button onClick={execSstate.bind(this, 'doubleApples')}>Double apples</button>
+                <button onClick={() => execSstate('persist', Date.now())}>Persist store</button>
             </>
         );
     }
@@ -82,7 +101,7 @@ class FoodCart extends Component {
 }
 
 export default const WrappedFoodCart = () => {
-    return <SstateConsumer path={'fruit.bananas'}><FoodCart /></SstateConsumer>;
+    return <SstateConsumer path={'fruit.apples'}><FoodCart /></SstateConsumer>;
 }
 ```
 
@@ -116,3 +135,11 @@ setSstate( newValue )
 setSstate( path, newValue ) 
 ```
 
+### ***execSstate***
+
+This is a method for executing predefined actions on the store with the possibility to pass in arguments.
+
+```javascript
+// Executes a action
+execSstate('actionName', optionalArguments);
+```

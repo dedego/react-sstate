@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const SstateContext = React.createContext({});
-const { Provider, Consumer } = SstateContext;
+const { Provider, Consumer } = React.createContext({});
 
 const SstateConsumer = ({ children, path }) => {
   const [state, setStateProp] = useState();
@@ -14,7 +13,7 @@ const SstateConsumer = ({ children, path }) => {
   return (
     <Consumer>
       {context => {
-        const { getState, setState, subscribe } = context;
+        const { getState, setState, subscribe, exec } = context;
         unsubscribe = subscribe(path, (next, previous) =>
           setStateProp({ next, previous })
         );
@@ -28,6 +27,7 @@ const SstateConsumer = ({ children, path }) => {
                 customPath && newval ? customPath : path,
                 newval ? newval : customPath
               ),
+            execSstate: exec,  
             sstate: state
               ? state
               : { next: getState(path), previous: undefined }
@@ -39,8 +39,6 @@ const SstateConsumer = ({ children, path }) => {
   );
 };
 
-const SstateProvider = ({ store, children }) => (
-  <Provider value={store}>{children}</Provider>
-);
+const SstateProvider = ({ store, children }) => <Provider value={store}>{children}</Provider>;
 
 export { SstateProvider, SstateConsumer };
